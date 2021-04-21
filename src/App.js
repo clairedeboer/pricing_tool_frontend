@@ -9,14 +9,28 @@ const App = () => {
     fetch("http://localhost:3000/items")
       .then((response) => response.json())
       .then((itemData) => {
-        console.log('hit')
         setItems(itemData);
       });
   }, []);
 
+  const formSubmit = (newBag) => {
+    fetch("http://localhost:3000/items", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newBag),
+    })
+      .then((response) => response.json())
+      .then((newBag) => {
+        // setItems([...items, newBag])
+        console.log(newBag)
+      });
+  };
+
   return (
     <div>
-    <BagDetailsPage items={items}/>
+    <BagDetailsPage items={items} onFormSubmit={formSubmit}/>
     </div>
   );
 }
