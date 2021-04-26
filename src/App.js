@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from "react"; 
 import './App.css';
 import BagDetailsPage from "./components/BagDetailsPage.js";
+import BagForm from "./components/BagForm.js";
 
 const App = () => {
   const [items, setItems] = useState([]); 
@@ -23,14 +24,16 @@ const App = () => {
     })
       .then((response) => response.json())
       .then((newBag) => {
-        // setItems([...items, newBag])
-        console.log(newBag)
+        setItems([...items, newBag])
       });
   };
 
+  console.log(items)
+
   return (
     <div>
-    <BagDetailsPage items={items} onFormSubmit={formSubmit}/>
+      <BagForm onFormSubmit={formSubmit} />
+      <BagDetailsPage items={items} />
     </div>
   );
 }

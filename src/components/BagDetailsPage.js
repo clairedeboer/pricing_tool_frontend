@@ -1,14 +1,12 @@
-import React from "react"; 
+import React from "react";
 import BagDetailsContainer from "./BagDetailsContainer.js";
 
-const BagDetailsPage = ({items, onFormSubmit}) => {
-  
-
+const BagDetailsPage = ({ items }) => {
   return (
     <div>
-    <BagDetailsContainer items={items} onFormSubmit={onFormSubmit}/>
+      <BagDetailsContainer items={items} />
     </div>
   );
-}
+};
 
 export default BagDetailsPage;

@@ -1,7 +1,7 @@
 import React from "react"; 
 import BagDetailsCard from "./BagDetailsCard.js";
 
-const BagDetailsContainer = ({items, onFormSubmit}) => {
+const BagDetailsContainer = ({items}) => {
   const bagCards = items.map((item)=> {
     return (<BagDetailsCard 
       key={item.id}
@@ -13,8 +13,8 @@ const BagDetailsContainer = ({items, onFormSubmit}) => {
       color={item.color}
       condition={item.condition}
       retailPrice={item.retail_price}
-      resalePrice={item.resale_price}
-      onFormSubmit={onFormSubmit}
+      resaleValue={item.resale_value}
+
     />)
   })
 
