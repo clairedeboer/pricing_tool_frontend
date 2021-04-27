@@ -1,10 +1,10 @@
 import React from "react";
 import BagDetailsContainer from "./BagDetailsContainer.js";
 
-const BagDetailsPage = ({ items }) => {
+const BagDetailsPage = ({ bags, onEditButtonClick }) => {
   return (
     <div>
-      <BagDetailsContainer items={items} />
+      <BagDetailsContainer bags={bags} onEditButtonClick={onEditButtonClick}/>
     </div>
   );
 };

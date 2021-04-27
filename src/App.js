@@ -1,21 +1,26 @@
 import React, { useState, useEffect} from "react"; 
+import { Route, Switch } from "react-router-dom";
 import './App.css';
 import BagDetailsPage from "./components/BagDetailsPage.js";
 import BagForm from "./components/BagForm.js";
+import NavBar from "./components/NavBar.js"; 
+import Login from "./components/Login.js"; 
+import Signup from "./components/Signup.js"; 
 
 const App = () => {
-  const [items, setItems] = useState([]); 
+  const [bags, setBags] = useState([]); 
+  const [bag, setBag] = useState([]); 
 
   useEffect(() => {
-    fetch("http://localhost:3000/items")
+    fetch("http://localhost:3000/bags")
       .then((response) => response.json())
-      .then((itemData) => {
-        setItems(itemData);
+      .then((bagsData) => {
+        setBags(bagsData);
       });
   }, []);
 
   const formSubmit = (newBag) => {
-    fetch("http://localhost:3000/items", {
+    fetch("http://localhost:3000/bags", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -24,18 +29,59 @@ const App = () => {
     })
       .then((response) => response.json())
       .then((newBag) => {
-        setItems([...items, newBag])
+        setBags([...bags, newBag])
       });
   };
 
-  console.log(items)
+  const editButtonClick = (id) => {
+    fetch(`http://localhost:3000/bags/${id}`)
+    .then((response) => response.json())
+    .then((bagData) => {
+      console.log(bagData)
+      setBag(bagData); 
+    });
+  }
+
+  // const editPrice = (bookId) => {
+  //   return fetch(`http://localhost:3000/items/${bookId}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ status: status }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((userBook) => {
+  //       const nonUpdatedUserBooks = currentUser.user_books.filter(
+  //         (userBook) => userBook.book_id !== bookId
+  //       );
+  //       setCurrentUser({
+  //         ...currentUser,
+  //         user_books: [...nonUpdatedUserBooks, userBook],
+  //       });
+  //     });
+  // };
 
   return (
     <div>
-      <BagForm onFormSubmit={formSubmit} />
-      <BagDetailsPage items={items} />
+      <NavBar />
+      <Switch>
+        <Route exact path="/bags">
+          <BagForm onFormSubmit={formSubmit} bag={bag}/>
+        </Route>
+        <Route exact path="/">
+          <BagDetailsPage bags={bags} onEditButtonClick={editButtonClick}/>
+        </Route>
+        <Route exact path="/users/login">
+          <Login />
+        </Route>
+        <Route exact path="/users/signup">
+          <Signup />
+        </Route>
+      </Switch>
+      
     </div>
   );
 }
-
+//which bag's form do I want to show? 
 export default App;

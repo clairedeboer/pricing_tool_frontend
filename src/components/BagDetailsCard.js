@@ -1,6 +1,6 @@
-import React, { useState } from "react"; 
+import React, {useState} from "react"; 
 
-const BagDetailsCard = ({ user_id, designer, style, size, material, color, condition, retailPrice, resaleValue}) => {
+const BagDetailsCard = ({ user_id, id, designer, style, size, material, color, condition, retailPrice, resaleValue, onEditButtonClick }) => {
   
   
   return (
@@ -15,7 +15,9 @@ const BagDetailsCard = ({ user_id, designer, style, size, material, color, condi
             {designer} {style}
             </span>
             <span className="right floated">
-              <button className="small ui button">Edit</button>
+              <button className="small ui button" onClick={(event) => onEditButtonClick(id)}>
+              Edit
+              </button>
             </span>
           </div>
           <div className="description">Size: {size}</div>
@@ -32,9 +34,7 @@ const BagDetailsCard = ({ user_id, designer, style, size, material, color, condi
           </span>
         </div>
       </div>
-    </div>
-
-    
+    </div>    
   );
 }
 

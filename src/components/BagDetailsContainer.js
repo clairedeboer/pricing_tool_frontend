@@ -1,20 +1,21 @@
 import React from "react"; 
 import BagDetailsCard from "./BagDetailsCard.js";
 
-const BagDetailsContainer = ({items}) => {
-  const bagCards = items.map((item)=> {
+const BagDetailsContainer = ({bags, onEditButtonClick}) => {
+  const bagCards = bags.map((bag)=> {
     return (<BagDetailsCard 
-      key={item.id}
-      user_id={item.user_id}
-      designer={item.designer}
-      style={item.style}
-      size={item.size}
-      material={item.material}
-      color={item.color}
-      condition={item.condition}
-      retailPrice={item.retail_price}
-      resaleValue={item.resale_value}
-
+      key={bag.id}
+      id={bag.id}
+      user_id={bag.user_id}
+      designer={bag.designer}
+      style={bag.style}
+      size={bag.size}
+      material={bag.material}
+      color={bag.color}
+      condition={bag.condition}
+      retailPrice={bag.retail_price}
+      resaleValue={bag.resale_value}
+      onEditButtonClick={onEditButtonClick}
     />)
   })
 
