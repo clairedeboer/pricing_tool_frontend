@@ -1,4 +1,5 @@
 import React, { useState } from "react"; 
+import { useHistory } from "react-router-dom";
 
 const BagForm = ({ onFormSubmit, bag }) => {
 
@@ -11,6 +12,8 @@ const BagForm = ({ onFormSubmit, bag }) => {
   const [retailPrice, setRetailPrice] = useState(bag.retail_price)
   const [resaleValue, setResaleValue] = useState(null)
 
+  const history = useHistory();
+
   const newBag = {
     user_id: 1, 
     designer, 
@@ -20,11 +23,13 @@ const BagForm = ({ onFormSubmit, bag }) => {
     color, 
     condition, 
     retail_price: retailPrice, 
+    resale_value: resaleValue
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
     onFormSubmit(newBag)
+    history.push("/bags");
   }
 
   return (
@@ -64,6 +69,7 @@ const BagForm = ({ onFormSubmit, bag }) => {
           <input type="text" name="Resale Value" placeholder="Resale Value" value={resaleValue} onChange={(event) => setResaleValue(event.target.value)}/>
         </div>
         <button className="ui button" type="submit">Get A Quote</button>
+        <button className="ui button" type="submit">Submit Resale Value</button>
       </form>
     </div>
   );

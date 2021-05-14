@@ -32,6 +32,11 @@ const BagDetailsCard = ({ user_id, id, designer, style, size, material, color, c
             User Id: {user_id}
           </span>
         </div>
+        <div className="extra content">
+        <span className="right floated">
+          Resale Value: ${resaleValue}
+          </span>
+        </div>
       </div>
     </div>    
   );

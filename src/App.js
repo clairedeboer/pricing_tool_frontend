@@ -6,10 +6,13 @@ import BagForm from "./components/BagForm.js";
 import NavBar from "./components/NavBar.js"; 
 import Login from "./components/Login.js"; 
 import Signup from "./components/Signup.js"; 
+import { useHistory } from "react-router-dom";
 
 const App = () => {
   const [bags, setBags] = useState([]); 
   const [bag, setBag] = useState([]); 
+
+  const history = useHistory();
 
   useEffect(() => {
     fetch("http://localhost:3000/bags")
@@ -37,8 +40,8 @@ const App = () => {
     fetch(`http://localhost:3000/bags/${id}`)
     .then((response) => response.json())
     .then((bagData) => {
-      console.log('bagData', bagData)
       setBag(bagData); 
+      history.push("/");
     });
   }
 
@@ -46,10 +49,10 @@ const App = () => {
     <div>
       <NavBar />
       <Switch>
-        <Route exact path="/bags">
+        <Route exact path="/">
           <BagForm onFormSubmit={formSubmit} bag={bag} />
         </Route>
-        <Route exact path="/">
+        <Route exact path="/bags">
           <BagDetailsPage bags={bags} onEditButtonClick={editButtonClick}/>
         </Route>
         <Route exact path="/users/login">
@@ -63,5 +66,5 @@ const App = () => {
     </div>
   );
 }
-//which bag's form do I want to show? 
-export default App;
+
+export default App; 

@@ -5,10 +5,10 @@ const NavBar = () => {
 
   return (
     <div className="ui four item menu">
-      <Link className="item" to="/bags">
+      <Link className="item" to="/">
         Get a Quote
       </Link>
-      <Link className="item" to="/"> 
+      <Link className="item" to="/bags"> 
         Products
       </Link>
       <Link className="item" to="/users/login">
