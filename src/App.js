@@ -37,37 +37,17 @@ const App = () => {
     fetch(`http://localhost:3000/bags/${id}`)
     .then((response) => response.json())
     .then((bagData) => {
-      console.log(bagData)
+      console.log('bagData', bagData)
       setBag(bagData); 
     });
   }
-
-  // const editPrice = (bookId) => {
-  //   return fetch(`http://localhost:3000/items/${bookId}`, {
-  //     method: "PATCH",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ status: status }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((userBook) => {
-  //       const nonUpdatedUserBooks = currentUser.user_books.filter(
-  //         (userBook) => userBook.book_id !== bookId
-  //       );
-  //       setCurrentUser({
-  //         ...currentUser,
-  //         user_books: [...nonUpdatedUserBooks, userBook],
-  //       });
-  //     });
-  // };
 
   return (
     <div>
       <NavBar />
       <Switch>
         <Route exact path="/bags">
-          <BagForm onFormSubmit={formSubmit} bag={bag}/>
+          <BagForm onFormSubmit={formSubmit} bag={bag} />
         </Route>
         <Route exact path="/">
           <BagDetailsPage bags={bags} onEditButtonClick={editButtonClick}/>

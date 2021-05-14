@@ -4,7 +4,7 @@ import BagDetailsContainer from "./BagDetailsContainer.js";
 const BagDetailsPage = ({ bags, onEditButtonClick }) => {
   return (
     <div>
-      <BagDetailsContainer bags={bags} onEditButtonClick={onEditButtonClick}/>
+      <BagDetailsContainer bags={bags} onEditButtonClick={onEditButtonClick} />
     </div>
   );
 };

@@ -1,7 +1,6 @@
-import React, {useState} from "react"; 
+import React from "react"; 
 
 const BagDetailsCard = ({ user_id, id, designer, style, size, material, color, condition, retailPrice, resaleValue, onEditButtonClick }) => {
-  
   
   return (
     <div className="ui link cards">

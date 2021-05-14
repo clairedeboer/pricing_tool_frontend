@@ -2,8 +2,6 @@ import React, { useState } from "react";
 
 const BagForm = ({ onFormSubmit, bag }) => {
 
-  console.log('form', bag.designer)
-
   const [designer, setDesigner] = useState(bag.designer)
   const [style, setStyle] = useState(bag.style)
   const [size, setSize] = useState(bag.size)
@@ -11,6 +9,7 @@ const BagForm = ({ onFormSubmit, bag }) => {
   const [color, setColor] = useState(bag.color) 
   const [condition, setCondition] = useState(bag.condition)
   const [retailPrice, setRetailPrice] = useState(bag.retail_price)
+  const [resaleValue, setResaleValue] = useState(null)
 
   const newBag = {
     user_id: 1, 
@@ -29,7 +28,7 @@ const BagForm = ({ onFormSubmit, bag }) => {
   }
 
   return (
-    <div className="bag-details">
+  <div className="bag-details">
       <div>Upload Image</div>
       <form className="ui form" onSubmit={handleSubmit}>
         <div className="field">
@@ -59,6 +58,10 @@ const BagForm = ({ onFormSubmit, bag }) => {
         <div className="field">
           <label>Retail Price</label>
           <input type="text" name="Retail Price" placeholder="Retail Price" value={retailPrice} onChange={(event) => setRetailPrice(event.target.value)}/>
+        </div>
+        <div className="field">
+          <label>Resale Value</label>
+          <input type="text" name="Resale Value" placeholder="Resale Value" value={resaleValue} onChange={(event) => setResaleValue(event.target.value)}/>
         </div>
         <button className="ui button" type="submit">Get A Quote</button>
       </form>
