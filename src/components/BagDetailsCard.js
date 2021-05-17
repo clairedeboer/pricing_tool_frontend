@@ -1,5 +1,8 @@
 import React from "react"; 
 
+//if user is admin, show all bag cards
+//if user is not admin, only show bag cards that match their user_id
+
 const BagDetailsCard = ({ user_id, id, designer, style, size, material, color, condition, retailPrice, resaleValue, onEditButtonClick }) => {
   
   return (

@@ -1,16 +1,17 @@
-import React, { useState, useEffect} from "react"; 
+import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
-import './App.css';
+import "./App.css";
 import BagDetailsPage from "./components/BagDetailsPage.js";
 import BagForm from "./components/BagForm.js";
-import NavBar from "./components/NavBar.js"; 
-import Login from "./components/Login.js"; 
-import Signup from "./components/Signup.js"; 
+import NavBar from "./components/NavBar.js";
+import Login from "./components/Login.js";
+import Signup from "./components/Signup.js";
 import { useHistory } from "react-router-dom";
 
 const App = () => {
-  const [bags, setBags] = useState([]); 
-  const [bag, setBag] = useState([]); 
+  const [bags, setBags] = useState([]);
+  const [bag, setBag] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null); 
 
   const history = useHistory();
 
@@ -32,39 +33,75 @@ const App = () => {
     })
       .then((response) => response.json())
       .then((newBag) => {
-        setBags([...bags, newBag])
+        setBags([...bags, newBag]);
       });
   };
 
   const editButtonClick = (id) => {
     fetch(`http://localhost:3000/bags/${id}`)
-    .then((response) => response.json())
-    .then((bagData) => {
-      setBag(bagData); 
-      history.push("/");
-    });
-  }
+      .then((response) => response.json())
+      .then((bagData) => {
+        setBag(bagData);
+        history.push("/");
+      });
+  };
+
+  const addNewCurrentUser = (newCurrentUser) => {
+    fetch("http://localhost:3000/login")
+      .then((response) => response.json())
+      .then((data) => {
+        setCurrentUser(newCurrentUser);
+        history.push("/");
+      });
+  };
+
+  useEffect(() => {
+    fetch("http://localhost:3000/me")
+      .then((response) => response.json())
+      .then((meData) => {
+        setCurrentUser(meData);
+      });
+  }, []);
+
+  const addNewUser = (newSignup) => {
+    fetch("http://localhost:3000/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newSignup),
+    })
+      .then((response) => response.json())
+      .then((userData) => {
+        setCurrentUser(newSignup);
+        history.push("/");
+        })
+  };
+
+  const logout = () => {
+    setCurrentUser(null);
+    history.push("/users/login");
+  };
 
   return (
     <div>
-      <NavBar />
+      <NavBar currentUser={currentUser} logout={logout} />
       <Switch>
         <Route exact path="/">
           <BagForm onFormSubmit={formSubmit} bag={bag} />
         </Route>
         <Route exact path="/bags">
-          <BagDetailsPage bags={bags} onEditButtonClick={editButtonClick}/>
+          <BagDetailsPage bags={bags} onEditButtonClick={editButtonClick} />
         </Route>
         <Route exact path="/users/login">
-          <Login />
+          <Login onSubmit={addNewCurrentUser} />
         </Route>
         <Route exact path="/users/signup">
-          <Signup />
+          <Signup onSubmit={addNewUser} />
         </Route>
       </Switch>
-      
     </div>
   );
-}
+};
 
-export default App; 
+export default App;
