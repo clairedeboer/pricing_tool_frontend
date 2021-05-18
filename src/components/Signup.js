@@ -7,7 +7,7 @@ const Signup = ({ onSubmit }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newSignup = { name, username, password };
+    const newSignup = { name, username, password, is_admin: false };
     onSubmit(newSignup);
   };
 
@@ -49,9 +49,20 @@ const Signup = ({ onSubmit }) => {
           onChange={(event) => setPassword(event.target.value)}
         />
       </div>
-      <button className="ui button" type="submit">
-        Signup
-      </button>
+      {/* <div className="ui checkbox">
+        <input 
+        type="checkbox"
+        name="admin"
+        onChange={(event) => setIsAdmin(event.target.value)}
+        />
+        <label>Admin</label>
+      </div> */}
+      <div>
+        <button className="ui button" type="submit">
+          Signup
+        </button>
+      </div>
+      
     </form>
   );
 };

@@ -11,7 +11,7 @@ import { useHistory } from "react-router-dom";
 const App = () => {
   const [bags, setBags] = useState([]);
   const [bag, setBag] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null); 
+  const [currentUser, setCurrentUser] = useState(null);
 
   const history = useHistory();
 
@@ -47,10 +47,17 @@ const App = () => {
   };
 
   const addNewCurrentUser = (newCurrentUser) => {
-    fetch("http://localhost:3000/login")
+    fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newCurrentUser),
+    })
       .then((response) => response.json())
       .then((data) => {
-        setCurrentUser(newCurrentUser);
+        console.log('data', data)
+        setCurrentUser(data);
         history.push("/");
       });
   };
@@ -75,7 +82,7 @@ const App = () => {
       .then((userData) => {
         setCurrentUser(newSignup);
         history.push("/");
-        })
+      });
   };
 
   const logout = () => {
@@ -91,7 +98,11 @@ const App = () => {
           <BagForm onFormSubmit={formSubmit} bag={bag} />
         </Route>
         <Route exact path="/bags">
-          <BagDetailsPage bags={bags} onEditButtonClick={editButtonClick} />
+          <BagDetailsPage
+            bags={bags}
+            onEditButtonClick={editButtonClick}
+            currentUser={currentUser}
+          />
         </Route>
         <Route exact path="/users/login">
           <Login onSubmit={addNewCurrentUser} />

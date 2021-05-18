@@ -3,10 +3,12 @@ import React from "react";
 //if user is admin, show all bag cards
 //if user is not admin, only show bag cards that match their user_id
 
-const BagDetailsCard = ({ user_id, id, designer, style, size, material, color, condition, retailPrice, resaleValue, onEditButtonClick }) => {
-  
+const BagDetailsCard = ({ user_id, id, designer, style, size, material, color, condition, retailPrice, resaleValue, onEditButtonClick, currentUser }) => {
+  console.log('current user', currentUser)
+
   return (
     <div className="ui link cards">
+      {currentUser?.is_admin && (<span>Admin Portal</span>)}
       <div className="card">
         <div className="image">
           <img src="/images/avatar2/large/matthew.png" alt={style}></img>

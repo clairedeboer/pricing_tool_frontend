@@ -1,7 +1,8 @@
 import React from "react"; 
 import BagDetailsCard from "./BagDetailsCard.js";
 
-const BagDetailsContainer = ({ bags, onEditButtonClick }) => {
+const BagDetailsContainer = ({ bags, onEditButtonClick, currentUser }) => {
+  console.log(bags)
   const bagCards = bags.map((bag)=> {
     return (<BagDetailsCard 
       key={bag.id}
@@ -16,6 +17,7 @@ const BagDetailsContainer = ({ bags, onEditButtonClick }) => {
       retailPrice={bag.retail_price}
       resaleValue={bag.resale_value}
       onEditButtonClick={onEditButtonClick}
+      currentUser={currentUser}
     />)
   })
 
