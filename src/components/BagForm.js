@@ -1,7 +1,7 @@
 import React, { useState } from "react"; 
 import { useHistory } from "react-router-dom";
 
-const BagForm = ({ onFormSubmit, bag }) => {
+const BagForm = ({ onFormSubmit, bag, onSubmitResaleValueClick }) => {
 
   const [designer, setDesigner] = useState(bag.designer)
   const [style, setStyle] = useState(bag.style)
@@ -69,8 +69,8 @@ const BagForm = ({ onFormSubmit, bag }) => {
           <input type="text" name="Resale Value" placeholder="Resale Value" value={resaleValue} onChange={(event) => setResaleValue(event.target.value)}/>
         </div>
         <button className="ui button" type="submit">Get A Quote</button>
-        <button className="ui button" type="submit">Submit Resale Value</button>
       </form>
+      <button className="ui button" type="submit" onClick={(event) => onSubmitResaleValueClick(resaleValue, bag)}>Submit Resale Value</button>
     </div>
   );
 }

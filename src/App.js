@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 
 const App = () => {
   const [bags, setBags] = useState([]);
-  const [bag, setBag] = useState([]);
+  const [bag, setBag] = useState({});
   const [currentUser, setCurrentUser] = useState(null);
 
   const history = useHistory();
@@ -56,7 +56,7 @@ const App = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('data', data)
+        console.log("data", data);
         setCurrentUser(data);
         history.push("/");
       });
@@ -90,12 +90,34 @@ const App = () => {
     history.push("/users/login");
   };
 
+  const submitResaleValue = (resaleValue, bag) => {
+    const toEditBagId = bag.id;
+    const bagsNotToEdit = bags.filter((bag) => bag.id!==toEditBagId)
+    return fetch(`http://localhost:3000/bags/${toEditBagId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ resale_value: resaleValue }),
+    })
+      .then((response) => response.json())
+      .then((bagData) => {
+        console.log(bagData)
+        setBags([...bagsNotToEdit, bagData])
+        history.push("/bags");
+      });
+  };
+
   return (
     <div>
       <NavBar currentUser={currentUser} logout={logout} />
       <Switch>
         <Route exact path="/">
-          <BagForm onFormSubmit={formSubmit} bag={bag} />
+          <BagForm
+            onFormSubmit={formSubmit}
+            bag={bag}
+            onSubmitResaleValueClick={submitResaleValue}
+          />
         </Route>
         <Route exact path="/bags">
           <BagDetailsPage

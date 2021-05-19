@@ -2,7 +2,6 @@ import React from "react";
 import BagDetailsCard from "./BagDetailsCard.js";
 
 const BagDetailsContainer = ({ bags, onEditButtonClick, currentUser }) => {
-  console.log(bags)
   const bagCards = bags.map((bag)=> {
     return (<BagDetailsCard 
       key={bag.id}
@@ -22,7 +21,8 @@ const BagDetailsContainer = ({ bags, onEditButtonClick, currentUser }) => {
   })
 
   return (
-    <div>
+    <div className="container">
+    {currentUser?.is_admin && (<span>Admin Portal</span>)}
     {bagCards}
     </div>
   );
