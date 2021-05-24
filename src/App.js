@@ -15,74 +15,69 @@ const App = () => {
 
   const history = useHistory();
 
-  useEffect(() => {
-    fetch("http://localhost:3000/bags")
-      .then((response) => response.json())
-      .then((bagsData) => {
-        setBags(bagsData);
-      });
-  }, []);
-
-  const formSubmit = (newBag) => {
-    fetch("http://localhost:3000/bags", {
+  //check that fetches succeed with conditionals like addNewUser
+  //might need to set bags with bagData instead if need an id
+  const formSubmit = async (newBag) => {
+    const response = await fetch("http://localhost:3000/bags", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newBag),
-    })
-      .then((response) => response.json())
-      .then((newBag) => {
-        setBags([...bags, newBag]);
-      });
+    });
+    // const bagData = await response.json();
+    if (response.ok) {
+      setBags([...bags, newBag]);
+    }
   };
 
-  const editButtonClick = (id) => {
-    fetch(`http://localhost:3000/bags/${id}`)
-      .then((response) => response.json())
-      .then((bagData) => {
-        setBag(bagData);
-        history.push("/");
-      });
+  const editButtonClick = async (id) => {
+    const response = await fetch(`http://localhost:3000/bags/${id}`);
+    const bagData = await response.json();
+    setBag(bagData);
+    history.push("/");
   };
 
-  const addNewCurrentUser = (newCurrentUser) => {
-    fetch("http://localhost:3000/login", {
+  const addNewCurrentUser = async (newCurrentUser) => {
+    const response = await fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newCurrentUser),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("data", data);
-        setCurrentUser(data);
-        history.push("/");
-      });
+    });
+    const loginData = await response.json();
+  
+    if (response.ok) {
+      const bagsResponse = await fetch("http://localhost:3000/bags");
+      const bagsData = await bagsResponse.json();
+      setBags(bagsData);
+      setCurrentUser(loginData);
+    }
+    history.push("/");
   };
 
   useEffect(() => {
-    fetch("http://localhost:3000/me")
-      .then((response) => response.json())
-      .then((meData) => {
-        setCurrentUser(meData);
-      });
+    const autoLoginFunction = async () => {
+      const response = await fetch("http://localhost:3000/me");
+      const meData = await response.json();
+      setCurrentUser(meData);
+    };
+    autoLoginFunction();
   }, []);
 
-  const addNewUser = (newSignup) => {
-    fetch("http://localhost:3000/signup", {
+  const addNewUser = async (newSignup) => {
+    const response = await fetch("http://localhost:3000/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newSignup),
-    })
-      .then((response) => response.json())
-      .then((userData) => {
-        setCurrentUser(newSignup);
-        history.push("/");
-      });
+    });
+    if (response.ok) {
+      setCurrentUser(newSignup);
+      history.push("/");
+    }
   };
 
   const logout = () => {
@@ -90,22 +85,22 @@ const App = () => {
     history.push("/users/login");
   };
 
-  const submitResaleValue = (resaleValue, bag) => {
+  const submitResaleValue = async (resaleValue, bag) => {
     const toEditBagId = bag.id;
-    const bagsNotToEdit = bags.filter((bag) => bag.id!==toEditBagId)
-    return fetch(`http://localhost:3000/bags/${toEditBagId}`, {
+    console.log(toEditBagId);
+    const bagsNotToEdit = bags.filter((bag) => bag.id !== toEditBagId);
+    const response = await fetch(`http://localhost:3000/bags/${toEditBagId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ resale_value: resaleValue }),
-    })
-      .then((response) => response.json())
-      .then((bagData) => {
-        console.log(bagData)
-        setBags([...bagsNotToEdit, bagData])
-        history.push("/bags");
-      });
+    });
+    const bagData = await response.json();
+    if (response.ok) {
+      setBags([...bagsNotToEdit, bagData]);
+      history.push("/bags");
+    }
   };
 
   return (

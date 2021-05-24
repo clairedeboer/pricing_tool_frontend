@@ -2,6 +2,10 @@ import React from "react";
 import BagDetailsCard from "./BagDetailsCard.js";
 
 const BagDetailsContainer = ({ bags, onEditButtonClick, currentUser }) => {
+  console.log(bags)
+  if (!currentUser || !bags) {
+    return null
+  }
   const bagCards = bags.map((bag)=> {
     return (<BagDetailsCard 
       key={bag.id}

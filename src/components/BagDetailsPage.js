@@ -2,6 +2,7 @@ import React from "react";
 import BagDetailsContainer from "./BagDetailsContainer.js";
 
 const BagDetailsPage = ({ bags, onEditButtonClick, currentUser }) => {
+  console.log(bags)
   return (
     <div>
       <BagDetailsContainer bags={bags} onEditButtonClick={onEditButtonClick} currentUser={currentUser} />
