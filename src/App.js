@@ -15,13 +15,13 @@ const App = () => {
 
   const history = useHistory();
 
-  //check that fetches succeed with conditionals like addNewUser
-  //might need to set bags with bagData instead if need an id
+  //need to add authorization to all fetches with token variable
   const formSubmit = async (newBag) => {
     const response = await fetch("http://localhost:3000/bags", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2MjIzNDQzMTZ9.U342qRjgIjC6tz0-l6a4M2nFNwcUKLgPLC_HjlZ1ENU"
       },
       body: JSON.stringify(newBag),
     });
@@ -46,20 +46,30 @@ const App = () => {
       },
       body: JSON.stringify(newCurrentUser),
     });
-    const loginData = await response.json();
+    const {user, token} = await response.json();
   
     if (response.ok) {
-      const bagsResponse = await fetch("http://localhost:3000/bags");
+      const bagsResponse = await fetch("http://localhost:3000/bags", {
+        method: "GET", 
+        headers: {
+          "Authorization": token
+        }
+      })
       const bagsData = await bagsResponse.json();
       setBags(bagsData);
-      setCurrentUser(loginData);
+      setCurrentUser(user);
     }
     history.push("/");
   };
 
   useEffect(() => {
     const autoLoginFunction = async () => {
-      const response = await fetch("http://localhost:3000/me");
+      const response = await fetch("http://localhost:3000/me", {
+        method: "GET", 
+        headers: {
+          "Authorization": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2MjIzNDQzMTZ9.U342qRjgIjC6tz0-l6a4M2nFNwcUKLgPLC_HjlZ1ENU"
+        }
+      })
       const meData = await response.json();
       setCurrentUser(meData);
     };
