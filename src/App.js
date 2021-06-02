@@ -12,17 +12,16 @@ const App = () => {
   const [bags, setBags] = useState([]);
   const [bag, setBag] = useState({});
   const [currentUser, setCurrentUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   const history = useHistory();
-
-  const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2MjIzNDQzMTZ9.U342qRjgIjC6tz0-l6a4M2nFNwcUKLgPLC_HjlZ1ENU"
 
   const formSubmit = async (newBag) => {
     const response = await fetch("http://localhost:3000/bags", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": token
+        Authorization: token,
       },
       body: JSON.stringify(newBag),
     });
@@ -37,8 +36,8 @@ const App = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": token
-      } 
+        Authorization: token,
+      },
     });
     const bagData = await response.json();
     setBag(bagData);
@@ -53,49 +52,56 @@ const App = () => {
       },
       body: JSON.stringify(newCurrentUser),
     });
-    const {user, token} = await response.json();
-  
+    const { user, token } = await response.json();
+
     if (response.ok) {
       const bagsResponse = await fetch("http://localhost:3000/bags", {
-        method: "GET", 
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token
-        }
-      })
+          Authorization: token,
+        },
+      });
       const bagsData = await bagsResponse.json();
       setBags(bagsData);
       setCurrentUser(user);
+      localStorage.setItem("token", token);
+      setToken(token);
     }
     history.push("/");
   };
-
+  //handle token out of date, if don't get user kill setCurrentUser(null)
+  //should show Welcome Claire on load
   useEffect(() => {
     const autoLoginFunction = async () => {
       const response = await fetch("http://localhost:3000/me", {
-        method: "GET", 
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token
-        }
-      })
-      const meData = await response.json();
-      setCurrentUser(meData);
+          Authorization: token,
+        },
+      });
+      if (response.ok) {
+        const meData = await response.json();
+        setCurrentUser(meData);
+      }  
     };
     autoLoginFunction();
   }, []);
 
+//make look like login, line 55 get token from fetch
   const addNewUser = async (newSignup) => {
     const response = await fetch("http://localhost:3000/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": token
+        Authorization: token,
       },
       body: JSON.stringify(newSignup),
     });
     if (response.ok) {
       setCurrentUser(newSignup);
+      localStorage.setItem("token", token);
       history.push("/");
     }
   };
@@ -112,7 +118,7 @@ const App = () => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": token
+        Authorization: token,
       },
       body: JSON.stringify({ resale_value: resaleValue }),
     });

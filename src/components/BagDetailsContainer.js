@@ -2,7 +2,6 @@ import React from "react";
 import BagDetailsCard from "./BagDetailsCard.js";
 
 const BagDetailsContainer = ({ bags, onEditButtonClick, currentUser }) => {
-  console.log(bags)
   if (!currentUser || !bags) {
     return null
   }
