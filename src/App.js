@@ -15,13 +15,14 @@ const App = () => {
 
   const history = useHistory();
 
-  //need to add authorization to all fetches with token variable
+  const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2MjIzNDQzMTZ9.U342qRjgIjC6tz0-l6a4M2nFNwcUKLgPLC_HjlZ1ENU"
+
   const formSubmit = async (newBag) => {
     const response = await fetch("http://localhost:3000/bags", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2MjIzNDQzMTZ9.U342qRjgIjC6tz0-l6a4M2nFNwcUKLgPLC_HjlZ1ENU"
+        "Authorization": token
       },
       body: JSON.stringify(newBag),
     });
@@ -32,7 +33,13 @@ const App = () => {
   };
 
   const editButtonClick = async (id) => {
-    const response = await fetch(`http://localhost:3000/bags/${id}`);
+    const response = await fetch(`http://localhost:3000/bags/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      } 
+    });
     const bagData = await response.json();
     setBag(bagData);
     history.push("/");
@@ -52,6 +59,7 @@ const App = () => {
       const bagsResponse = await fetch("http://localhost:3000/bags", {
         method: "GET", 
         headers: {
+          "Content-Type": "application/json",
           "Authorization": token
         }
       })
@@ -67,7 +75,8 @@ const App = () => {
       const response = await fetch("http://localhost:3000/me", {
         method: "GET", 
         headers: {
-          "Authorization": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2MjIzNDQzMTZ9.U342qRjgIjC6tz0-l6a4M2nFNwcUKLgPLC_HjlZ1ENU"
+          "Content-Type": "application/json",
+          "Authorization": token
         }
       })
       const meData = await response.json();
@@ -81,6 +90,7 @@ const App = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": token
       },
       body: JSON.stringify(newSignup),
     });
@@ -97,12 +107,12 @@ const App = () => {
 
   const submitResaleValue = async (resaleValue, bag) => {
     const toEditBagId = bag.id;
-    console.log(toEditBagId);
     const bagsNotToEdit = bags.filter((bag) => bag.id !== toEditBagId);
     const response = await fetch(`http://localhost:3000/bags/${toEditBagId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": token
       },
       body: JSON.stringify({ resale_value: resaleValue }),
     });
