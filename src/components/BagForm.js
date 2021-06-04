@@ -3,6 +3,10 @@ import { useHistory } from "react-router-dom";
 
 const BagForm = ({ onFormSubmit, bag, onSubmitResaleValueClick }) => {
 
+  const [photo, setPhoto] = useState({
+    bag_id: bag.id, 
+    file: ''
+  })
   const [designer, setDesigner] = useState(bag.designer)
   const [style, setStyle] = useState(bag.style)
   const [size, setSize] = useState(bag.size)
@@ -16,6 +20,7 @@ const BagForm = ({ onFormSubmit, bag, onSubmitResaleValueClick }) => {
 
   const newBag = {
     user_id: 1, 
+    photo, 
     designer, 
     style, 
     size, 
@@ -34,8 +39,11 @@ const BagForm = ({ onFormSubmit, bag, onSubmitResaleValueClick }) => {
 
   return (
   <div className="bag-details">
-      <div>Upload Image</div>
       <form className="ui form" onSubmit={handleSubmit}>
+      <div className="field">
+          <label>Upload Image</label>
+          <input type="file" accept="image/*" multiple={false} name="File" placeholder="File" onChange={(event) => setPhoto({ file: event.target.files[0] })}/>
+        </div>
         <div className="field">
           <label>Designer</label>
           <input type="text" name="Designer" placeholder="Designer" value={designer} onChange={(event) => setDesigner(event.target.value)}/>
