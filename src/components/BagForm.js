@@ -3,24 +3,21 @@ import { useHistory } from "react-router-dom";
 
 const BagForm = ({ onFormSubmit, bag, onSubmitResaleValueClick }) => {
 
-  const [photo, setPhoto] = useState({
-    bag_id: bag.id, 
-    file: ''
-  })
-  const [designer, setDesigner] = useState(bag.designer)
-  const [style, setStyle] = useState(bag.style)
-  const [size, setSize] = useState(bag.size)
-  const [material, setMaterial] = useState(bag.material)
-  const [color, setColor] = useState(bag.color) 
-  const [condition, setCondition] = useState(bag.condition)
-  const [retailPrice, setRetailPrice] = useState(bag.retail_price)
-  const [resaleValue, setResaleValue] = useState(null)
+  const [file, setFile] = useState(bag.file || '')
+  const [designer, setDesigner] = useState(bag.designer || '')
+  const [style, setStyle] = useState(bag.style || '')
+  const [size, setSize] = useState(bag.size || '')
+  const [material, setMaterial] = useState(bag.material || '')
+  const [color, setColor] = useState(bag.color || '') 
+  const [condition, setCondition] = useState(bag.condition || '')
+  const [retailPrice, setRetailPrice] = useState(bag.retail_price || '')
+  const [resaleValue, setResaleValue] = useState('')
 
   const history = useHistory();
 
   const newBag = {
     user_id: 1, 
-    photo, 
+    featured_image: file, 
     designer, 
     style, 
     size, 
@@ -31,8 +28,13 @@ const BagForm = ({ onFormSubmit, bag, onSubmitResaleValueClick }) => {
     resale_value: resaleValue
   }
 
+  console.log('form file', file.name)
+  console.log('form newbag', newBag)
+
   const handleSubmit = (event) => {
     event.preventDefault()
+    // const formData = new FormData(); 
+    // formData.append('file')
     onFormSubmit(newBag)
     history.push("/bags");
   }
@@ -42,7 +44,7 @@ const BagForm = ({ onFormSubmit, bag, onSubmitResaleValueClick }) => {
       <form className="ui form" onSubmit={handleSubmit}>
       <div className="field">
           <label>Upload Image</label>
-          <input type="file" accept="image/*" multiple={false} name="File" placeholder="File" onChange={(event) => setPhoto({ file: event.target.files[0] })}/>
+          <input type="file" accept="image/*" multiple={false} name="File" placeholder="File" onChange={(event) => setFile(event.target.files[0])}/>
         </div>
         <div className="field">
           <label>Designer</label>

@@ -17,13 +17,18 @@ const App = () => {
   const history = useHistory();
 
   const formSubmit = async (newBag) => {
+    console.log("newBag app", newBag);
+    const formData = new FormData();
+    formData.append("newBag", newBag);
     const response = await fetch("http://localhost:3000/bags", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
       },
-      body: JSON.stringify(newBag),
+      body: formData,
+      //can't use stringify, use form data instead (see blog)
+      //need bag to serialize associated photo in backend
     });
     // const bagData = await response.json();
     if (response.ok) {
@@ -82,14 +87,23 @@ const App = () => {
         },
       });
       if (response.ok) {
+        const bagsResponse = await fetch("http://localhost:3000/bags", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        });
+        const bagsData = await bagsResponse.json();
+        setBags(bagsData);
         const meData = await response.json();
         setCurrentUser(meData);
-      }  
+      }
     };
     autoLoginFunction();
-  }, []);
+  }, [token]);
 
-//make look like login, line 55 get token from fetch
+  //make look like login, line 55 get token from fetch
   const addNewUser = async (newSignup) => {
     const response = await fetch("http://localhost:3000/signup", {
       method: "POST",

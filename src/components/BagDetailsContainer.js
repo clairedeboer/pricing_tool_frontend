@@ -5,11 +5,13 @@ const BagDetailsContainer = ({ bags, onEditButtonClick, currentUser }) => {
   if (!currentUser || !bags) {
     return null
   }
+
   const bagCards = bags.map((bag)=> {
     return (<BagDetailsCard 
       key={bag.id}
       id={bag.id}
       user_id={bag.user_id}
+      featured_image={bag.featured_image}
       designer={bag.designer}
       style={bag.style}
       size={bag.size}
@@ -23,6 +25,7 @@ const BagDetailsContainer = ({ bags, onEditButtonClick, currentUser }) => {
     />)
   })
 
+  
   return (
     <div className="container">
     {currentUser?.is_admin && (<span>Admin Portal</span>)}

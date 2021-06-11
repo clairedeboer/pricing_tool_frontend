@@ -3,13 +3,14 @@ import React from "react";
 //if user is admin, show all bag cards
 //if user is not admin, only show bag cards that match their user_id
 
-const BagDetailsCard = ({ user_id, id, designer, style, size, material, color, condition, retailPrice, resaleValue, onEditButtonClick, currentUser }) => {
+const BagDetailsCard = ({ user_id, id, featured_image, designer, style, size, material, color, condition, retailPrice, resaleValue, onEditButtonClick, currentUser }) => {
+  console.log('featured image', featured_image)
 
   return (
     <div className="ui link cards">
       <div className="card">
         <div className="image">
-          <img src="/images/avatar2/large/matthew.png" alt={style}></img>
+          <img src={featured_image} alt={style}></img>
         </div>
         <div className="content">
           <div className="header">
