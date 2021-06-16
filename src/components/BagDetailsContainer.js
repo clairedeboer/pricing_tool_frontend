@@ -11,7 +11,7 @@ const BagDetailsContainer = ({ bags, onEditButtonClick, currentUser }) => {
       key={bag.id}
       id={bag.id}
       user_id={bag.user_id}
-      featured_image={bag.featured_image}
+      photos={bag.photos}
       designer={bag.designer}
       style={bag.style}
       size={bag.size}

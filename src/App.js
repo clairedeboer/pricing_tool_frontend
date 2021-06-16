@@ -17,22 +17,33 @@ const App = () => {
   const history = useHistory();
 
   const formSubmit = async (newBag) => {
-    console.log("newBag app", newBag);
     const formData = new FormData();
-    formData.append("newBag", newBag);
+    const { user_id, featured_image, designer, style, size, material, color, condition, retail_price, resale_value } = newBag
+    console.log('newBag app', newBag)
+    formData.append("user_id", user_id);
+    formData.append("featured_image", featured_image);
+    formData.append("designer", designer);
+    formData.append("style", style);
+    formData.append("size", size);
+    formData.append("material", material);
+    formData.append("color", color);
+    formData.append("condition", condition);
+    formData.append("retail_price", retail_price);
+    formData.append("resale_value", resale_value);
+    console.log('formData', formData.getAll('featured_image'))
     const response = await fetch("http://localhost:3000/bags", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: token,
       },
       body: formData,
       //can't use stringify, use form data instead (see blog)
       //need bag to serialize associated photo in backend
     });
-    // const bagData = await response.json();
     if (response.ok) {
-      setBags([...bags, newBag]);
+      const bagData = await response.json();
+      console.log('bagData', bagData)
+      setBags([...bags, bagData]);
     }
   };
 
@@ -94,6 +105,7 @@ const App = () => {
             Authorization: token,
           },
         });
+        // bagsResponse is 500
         const bagsData = await bagsResponse.json();
         setBags(bagsData);
         const meData = await response.json();
